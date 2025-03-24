@@ -1,0 +1,15 @@
+@startuml Use_Case
+actor Utilisateur
+actor Administrateur
+
+rectangle "Site Web" {
+  Utilisateur --> (Consulter les documents)
+  Utilisateur --> (Poser une question)
+  Administrateur --> (Supprimer un document)
+  Administrateur --> (Ajouter un document)
+  Administrateur --> (Modifier un document)
+  (Supprimer un document) <-- (Modifier un document) : "Équivalent"
+  (Ajouter un document) <-- (Modifier un document) : "Équivalent"
+}
+
+@enduml

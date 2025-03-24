@@ -1,0 +1,21 @@
+@startuml Ask_Question
+actor Utilisateur
+participant "Frontend (Vue.js)" as Front
+participant "Backend (FastAPI)" as Backend
+participant "API Recherche (FastAPI)" as APIRecherche
+participant "Base de données vectorielle (FAISS)" as DB
+participant "LLM (Modèle de langage)" as LLM
+
+Utilisateur -> Front : Pose une question
+Front -> Backend : Envoie la question (méthode GET)
+Backend -> APIRecherche : Transmet la question
+APIRecherche -> APIRecherche : Vectorisation de la requête
+APIRecherche -> DB : Recherche sémantique avec le vecteur
+DB --> APIRecherche : Retourne les documents les plus pertinents
+APIRecherche -> LLM : Envoie la requête + documents en prompt
+LLM --> APIRecherche : Génère et retourne la réponse (méthode POST)
+APIRecherche --> Backend : Transmet la réponse générée
+Backend --> Front : Envoie la réponse
+Front --> Utilisateur : Affiche la réponse
+
+@enduml

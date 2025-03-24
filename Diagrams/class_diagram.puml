@@ -1,0 +1,45 @@
+@startuml RAG_RoadSafety
+
+class SiteWeb {
+    +afficherInterfaceUtilisateur()
+    +afficherInterfaceAdministrateur()
+    +envoyerRequeteAPIUtilisateur()
+    +envoyerRequeteAPIAdmin()
+}
+
+class APIAdmin {
+    +scraperDocument()
+    +traiterDocument()
+    +indexerDocument()
+    +supprimerVecteursAssocies()
+    +enregistrerDocumentSQL()
+    +enregistrerVecteursFAISS()
+}
+
+class APIUtilisateur {
+    +vectoriserRequete()
+    +rechercherSemantique()
+    +genererReponseLLM()
+    +envoyerReponseBackend()
+}
+
+class BaseDonneesSQL {
+    +stockerDocument()
+    +supprimerDocument()
+    +retrouverVecteursAssocies()
+}
+
+class BaseDonneesVectorielle {
+    +stockerVecteurs()
+    +supprimerVecteurs()
+    +rechercherSemantique()
+}
+
+SiteWeb --> APIUtilisateur : "Question"
+SiteWeb --> APIAdmin : "Document"
+APIAdmin -- BaseDonneesSQL : "Stocke documents dans"
+APIAdmin -- BaseDonneesVectorielle : "Stocke vecteurs dans"
+APIUtilisateur -- BaseDonneesVectorielle : "Effectue recherche dans"
+APIUtilisateur --> SiteWeb : "Réponse"
+
+@enduml

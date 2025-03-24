@@ -1,0 +1,31 @@
+@startuml Modify_Document
+
+actor Admin
+participant Frontend
+participant Backend
+participant API_1 as "API de gestion des documents"
+database SQL_DB as "Base de données SQL"
+database Vector_DB as "Base de données vectorielle"
+
+Admin -> Frontend: Modifie un document
+Frontend -> Backend: Envoie le nom du document
+Backend -> API_1: GET Nom du document
+API_1 -> SQL_DB: Recherche vecteurs associés
+SQL_DB -> API_1: Retourne les vecteurs
+API_1 -> Vector_DB: Supprime les vecteurs associés
+Vector_DB -> API_1: Confirmation suppression
+API_1 -> Backend: Confirmation suppression
+Backend -> Frontend: Affiche succès suppression
+Frontend -> Admin: Affiche succès suppression
+Backend -> API_1: GET Nouveau document
+API_1 -> API_1: Scraping, traitement et chunking
+API_1 -> API_1: Vectorisation du document
+API_1 -> SQL_DB: Stockage du document brut
+API_1 -> Vector_DB: Stockage des vecteurs associés
+SQL_DB -> API_1: Confirmation stockage
+Vector_DB -> API_1: Confirmation stockage
+API_1 -> Backend: Opération réussie
+Backend -> Frontend: Affiche succès
+Frontend -> Admin: Affiche succès
+
+@enduml
