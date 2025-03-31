@@ -1,0 +1,5 @@
+scrapy>=2.11.0
+requests
+pandas
+pdfplumber>=0.10.0   # pour extraire le texte des PDFs
+PyPDF2>=3.0.0         # alternative pour lire la structure du PDF
