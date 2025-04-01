@@ -5,12 +5,13 @@ from langchain.chains import RetrievalQA
 from langchain.vectorstores import FAISS
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.document_loaders import TextLoader
+from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from transformers import pipeline
 
 # Chargement et découpage des documents
 def load_and_split_documents(file_path):
-    loader = TextLoader(file_path)
+    loader = PyPDFLoader(file_path)
     documents = loader.load()
     splitter = RecursiveCharacterTextSplitter(chunk_size=512, chunk_overlap=50)
     return splitter.split_documents(documents)
