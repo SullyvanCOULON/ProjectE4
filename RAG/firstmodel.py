@@ -1,4 +1,4 @@
-import faiss
+"""import faiss
 import numpy as np
 from langchain.llms import HuggingFacePipeline
 from langchain.chains import RetrievalQA
@@ -40,4 +40,4 @@ qa_chain = RetrievalQA(llm=llm, retriever=retriever)
 # Test de la RAG
 query = "Quel genre est le plus responsable d'accidents de la route ?"
 response = qa_chain.run(query)
-print("Réponse générée:", response)
+print("Réponse générée:", response)"""

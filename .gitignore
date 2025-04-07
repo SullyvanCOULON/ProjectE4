@@ -1,2 +1,8 @@
 out
+interface/node_modules/
+interface/.idea/
+.vscode/
+*.pyc
+__pycache__/
+.env
 .DS_Store
