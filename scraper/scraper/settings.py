@@ -7,10 +7,10 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "Scrapy"
+BOT_NAME = "scraper"
 
-SPIDER_MODULES = ["Scrapy.spiders"]
-NEWSPIDER_MODULE = "Scrapy.spiders"
+SPIDER_MODULES = ["scraper.spiders"]
+NEWSPIDER_MODULE = "scraper.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -63,7 +63,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    "Scrapy.pipelines.JsonExportPipeline": 300,
+    "scraper.pipelines.JsonExportPipeline": 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
