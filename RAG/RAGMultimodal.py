@@ -11,12 +11,12 @@ local_model_dir = Path("./models") / model_name.replace("/", "_")
 index_name = "onisr_index"
 #pdf_path = Path("./content/pdf_folder/Codedelaroute.pdf")
 
-pdf_path = Path("./content/pdf_folder/PANNEAUX.pdf")
+pdf_path = Path("./content/pdf_folder/repport2024.pdf")
 images_dir = Path("./content/images")
 
 # Initialiser le client OpenAI
 client = OpenAI(
-    api_key='',
+    api_key='c4bf084df6c344eb437607fb0f04ea627d17bbc84eb5ab1c621f874d36ec3b1b',
     base_url="http://10.3.0.3:23333/v1"
 )
 
@@ -32,6 +32,7 @@ if local_model_dir.exists() and any(local_model_dir.iterdir()):
 else:
     print(f"Téléchargement du modèle {model_name}")
     model = RAGMultiModalModel.from_pretrained(model_name)
+    print(dir(model))
     # Sauvegarder le modèle localement pour une utilisation future
     #model.save_pretrained(str(local_model_dir))
 
@@ -57,7 +58,7 @@ else:
     print(f"Images déjà présentes dans {images_dir}, chargement direct")
 
 # Requête de recherche
-query = "Quelle est la description du panneau AB4 ?"
+query = "Quelle est le sexe qui fait le plus d'accident ?"
 results = model.search(query, k=1)
 
 print(f"Résultats de la recherche pour '{query}':")
