@@ -1,24 +1,17 @@
 import os
 from pathlib import Path
 from byaldi import RAGMultiModalModel
-#from together import Together
-from openai import OpenAI
 from pdf2image import convert_from_path
+from AccesLLM import query_image_base64
+
 
 # Définir les chemins
 model_name = "vidore/colqwen2-v0.1"
 local_model_dir = Path("./models") / model_name.replace("/", "_")
 index_name = "onisr_index"
-#pdf_path = Path("./content/pdf_folder/Codedelaroute.pdf")
 
 pdf_path = Path("./content/pdf_folder/repport2024.pdf")
 images_dir = Path("./content/images")
-
-# Initialiser le client OpenAI
-client = OpenAI(
-    api_key='c4bf084df6c344eb437607fb0f04ea627d17bbc84eb5ab1c621f874d36ec3b1b',
-    base_url="http://10.3.0.3:23333/v1"
-)
 
 # Créer les répertoires si nécessaire
 local_model_dir.mkdir(parents=True, exist_ok=True)
@@ -33,8 +26,6 @@ else:
     print(f"Téléchargement du modèle {model_name}")
     model = RAGMultiModalModel.from_pretrained(model_name)
     print(dir(model))
-    # Sauvegarder le modèle localement pour une utilisation future
-    #model.save_pretrained(str(local_model_dir))
 
 # 2. Vérifier si l'index existe déjà
 index_path = Path(f"./{index_name}")
@@ -74,29 +65,6 @@ with open(image_path, "rb") as image_file:
     import base64
     returned_page = base64.b64encode(image_file.read()).decode('utf-8')
 
-# Appel à l'API Together
-#client = Together(api_key='c4bf084df6c344eb437607fb0f04ea627d17bbc84eb5ab1c621f874d36ec3b1b')
-
-model_name = client.models.list().data[0].id
-print(f"Modèle utilisé : {model_name}")
-
-response = client.chat.completions.create(
-    model=model_name,
-    messages=[
-        {
-            "role": "user",
-            "content": [
-                {"type": "text", "text": query},
-                {
-                    "type": "image_url",
-                    "image_url": {
-                        "url": f"data:image/jpeg;base64,{returned_page}",
-                    },
-                },
-            ],
-        }
-    ],
-    max_tokens=200,
-)
-
-print(response.choices[0].message.content)
+response = query_image_base64(returned_page, query)
+print("Réponse image + texte :")
+print(response)
