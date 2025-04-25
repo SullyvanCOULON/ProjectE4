@@ -49,7 +49,7 @@ if not test_server_connection(base_url, api_key):
     sys.exit(1)
 
 # Recherche MongoDB
-query = "Quels sont les départements les plus accidentés en France en 2022 ?"
+query = "combien d'accident corporel en 1990 ?"
 print("Recherche via MongoDB...")
 paragraphs = search_documents(query)
 

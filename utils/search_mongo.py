@@ -11,7 +11,7 @@ def search_documents(query, db_name="onisr_db", collection_name="articles", top_
     results = []
 
     for doc in collection.find():
-        for p in doc.get("paragraphs", []):
+        for p in doc.get("content", []):
             score = sum(1 for word in keywords if word in p.lower())
             if score > 0:
                 results.append((score, p))
