@@ -52,6 +52,14 @@ if not test_server_connection(base_url, api_key):
 query = "Quels sont les départements les plus accidentés en France en 2022 ?"
 print("Recherche via MongoDB...")
 paragraphs = search_documents(query)
+
+print("\n--- CONTEXTE RÉCUPÉRÉ DE MONGO ---")
+for i, p in enumerate(paragraphs):
+    print(f"[Extrait {i+1}]\n{p}\n")
+print("--- FIN CONTEXTE ---\n")
+
+
+
 context = "\n".join(paragraphs)
 
 prompt = f"""
