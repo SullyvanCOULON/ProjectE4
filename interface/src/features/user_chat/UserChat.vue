@@ -16,15 +16,29 @@ function scrollToTop() {
   })
 }
 
-function handleSendMessage(content: string) {
+async function handleSendMessage(content: string) {
   // Ajouter un message utilisateur
   messages.value.unshift({ from: 'user', content })
 
-  // Simuler une réponse automatique du bot
-  setTimeout(() => {
-    messages.value.unshift({ from: 'bot', content: `Vous avez dit : ${content}` })
-    scrollToTop() // Ajuste l'affichage après la réponse
-  }, 1000)
+  // Envoyer le message au backend
+  const response = await fetch('http://localhost:5000/api/message', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ message: content })
+  })
+
+  if (response.ok) {
+    const data = await response.json()
+    // Ajouter la réponse du bot
+    messages.value.unshift({ from: 'bot', content: data.response })
+  } else {
+    // Gérer les erreurs
+    messages.value.unshift({ from: 'bot', content: 'Erreur de communication avec le serveur.' })
+  }
+
+  scrollToTop()
 }
 
 // Scroller au bon endroit au montage pour assurer un bon affichage
