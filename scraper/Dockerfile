@@ -7,4 +7,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["python", "import_to_mongo.py"]
+CMD ["python", "import_mongo.py"]
