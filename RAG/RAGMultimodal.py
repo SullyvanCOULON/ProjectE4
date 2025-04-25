@@ -1,9 +1,11 @@
+from flask import Flask, request, jsonify
 import os
 from pathlib import Path
 from byaldi import RAGMultiModalModel
 from pdf2image import convert_from_path
 from AccesLLM import query_image_base64
 
+app = Flask(__name__)
 
 # Définir les chemins
 model_name = "vidore/colqwen2-v0.1"
@@ -48,23 +50,28 @@ if not any(images_dir.iterdir()):
 else:
     print(f"Images déjà présentes dans {images_dir}, chargement direct")
 
-# Requête de recherche
-query = "Quelle est le sexe qui fait le plus d'accident ?"
-results = model.search(query, k=1)
+# Route pour gérer la communication avec le frontend
+@app.route('/api/message', methods=['POST'])
+def handle_message():
+    content = request.json.get('message')
+    if not content:
+        return jsonify({'response': 'Aucun message reçu'}), 400
 
-print(f"Résultats de la recherche pour '{query}':")
-for result in results:
-    print(f"Doc ID: {result.doc_id}, Page: {result.page_num}, Score: {result.score}")
+    # Traitement de la requête ici avec votre modèle
+    query = content
+    results = model.search(query, k=1)
+    
+    # Charger l'image de la page retournée
+    page_num = results[0].page_num if results else 1
+    image_path = images_dir / f"page_{page_num}.png"
+    
+    with open(image_path, "rb") as image_file:
+        import base64
+        returned_page = base64.b64encode(image_file.read()).decode('utf-8')
 
-# Charger l'image de la page retournée
-page_num = model.search(query, k=1)[0].page_num
-image_path = images_dir / f"page_{page_num}.png"
+    response = query_image_base64(returned_page, query)
+    
+    return jsonify({'response': response})
 
-# Lire l'image en base64
-with open(image_path, "rb") as image_file:
-    import base64
-    returned_page = base64.b64encode(image_file.read()).decode('utf-8')
-
-response = query_image_base64(returned_page, query)
-print("Réponse image + texte :")
-print(response)
+if __name__ == '__main__':
+    app.run(host='localhost', port=5000, debug=True)
