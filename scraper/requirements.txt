@@ -1,6 +1,0 @@
-scrapy>=2.11.0
-requests
-pandas
-pymongo
-selenium
-

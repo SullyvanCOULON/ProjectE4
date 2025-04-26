@@ -2,7 +2,7 @@ import sys
 import os
 import httpx
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # Désactive CUDA proprement
+#os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # Désactive CUDA proprement
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from pathlib import Path
