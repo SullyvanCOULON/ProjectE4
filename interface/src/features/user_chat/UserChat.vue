@@ -20,22 +20,24 @@ async function handleSendMessage(content: string) {
   // Ajouter un message utilisateur
   messages.value.unshift({ from: 'user', content })
 
-  // Envoyer le message au backend
-  const response = await fetch('http://localhost:5000/api/message', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ message: content })
-  })
+  try {
+    const response = await fetch('http://localhost:5000/api/message', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ message: content })
+    })
 
-  if (response.ok) {
-    const data = await response.json()
-    // Ajouter la réponse du bot
-    messages.value.unshift({ from: 'bot', content: data.response })
-  } else {
-    // Gérer les erreurs
-    messages.value.unshift({ from: 'bot', content: 'Erreur de communication avec le serveur.' })
+    if (response.ok) {
+      const data = await response.json()
+      messages.value.unshift({ from: 'bot', content: data.response })
+    } else {
+      messages.value.unshift({ from: 'bot', content: 'Erreur de communication avec le serveur.' })
+    }
+  } catch (error) {
+    console.error('Erreur réseau :', error)
+    messages.value.unshift({ from: 'bot', content: 'Impossible de contacter le serveur.' })
   }
 
   scrollToTop()

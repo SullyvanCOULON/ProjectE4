@@ -3,8 +3,10 @@ import base64
 from pathlib import Path
 from startup import initialize
 from AccesLLM import query_image_base64
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 # Initialiser tout au démarrage
 model, images_dir = initialize()
