@@ -1,7 +1,11 @@
 from pymongo import MongoClient
+import os
 
 def search_documents(query, db_name="onisr_db", collection_name="articles", top_k=5):
-    client = MongoClient("mongodb://localhost:27017/")
+    # Récupère l'hôte MongoDB depuis les variables d'environnement, sinon localhost par défaut
+    mongo_host = os.getenv("MONGO_HOST", "localhost")
+    mongo_uri = f"mongodb://{mongo_host}:27017/"
+    client = MongoClient(mongo_uri)
     db = client[db_name]
     collection = db[collection_name]
 

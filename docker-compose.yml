@@ -19,5 +19,22 @@ services:
     working_dir: /app/scraper  
     command: python import_mongo.py  
 
+  rag:
+    build:
+      context: .
+      dockerfile: RAG/Dockerfile
+    container_name: rag
+    depends_on:
+      - mongo
+      - scraper
+    ports:
+      - "9081:9081"
+    working_dir: /app/RAG
+    command: /bin/bash -c "sleep 10 && python RAGMultimodal.py"
+    environment:
+      - API_KEY=JpQAceF80Htu21tCbZx8eZGhye2UP2V
+      - BASE_URL=http://rag:9081
+      - MONGO_HOST=mongo               # connexion à Mongo depuis le conteneur
+
 volumes:
   mongo_data:
