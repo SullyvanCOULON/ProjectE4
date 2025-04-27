@@ -49,7 +49,7 @@ if not test_server_connection(base_url, api_key):
     sys.exit(1)
 
 # Recherche MongoDB
-query = "quelle est la mortalité via l'usage d'alcool au volant en 2023 ?"
+query = "quelle est la vitesse maximale autorisée sur les routes nationales ?"
 print("Recherche via MongoDB...")
 paragraphs = search_documents(query)
 
