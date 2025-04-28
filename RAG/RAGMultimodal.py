@@ -1,4 +1,3 @@
-from flask import sys
 import Flask, request, jsonify
 import base64
 
