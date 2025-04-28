@@ -1,5 +1,4 @@
 from openai import OpenAI
-import base64
 
 # Initialiser le client OpenAI
 client = OpenAI(
@@ -10,15 +9,18 @@ client = OpenAI(
 model_name = client.models.list().data[0].id
 print(f"[image_query] Modèle utilisé : {model_name}")
 
-def query_image_base64(img_base64: str, question: str) -> str:
+def query_image_base64(img_base64: str, context: str, question: str) -> str:
     try:
         # Construire le message
         messages = [
             {
                 "role": "user",
                 "content": [
-                    {"type": "text", "text": question},
-                    {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{img_base64}"}}
+                    "Voici des extraits d’articles officiels de l’ONISR :\n",
+                    {"type": "text", "text": context},
+                    {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{img_base64}"}},
+                    "Réponds à la question ci-dessous en te basant sur le contexte fourni et l’image.",
+                    {"type": "text", "text": question}
                 ]
             }
         ]
