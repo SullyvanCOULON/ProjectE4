@@ -7,9 +7,9 @@ class JsonExportPipeline:
         self.file = None
 
     def open_spider(self, spider):
-        if os.path.exists('output/data.json'):
-            os.remove('output/data.json')
-        self.file = open('output/data.json', 'w', encoding='utf-8')
+        #if os.path.exists('output/data.json'):
+        #    os.remove('output/data.json')
+        self.file = open('output/new_data.json', 'w', encoding='utf-8')
         self.file.write('[\n')  
         self.first_item = True
 
