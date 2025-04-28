@@ -1,5 +1,9 @@
-import Flask, request, jsonify
+from flask import Flask, request, jsonify
 import base64
+import os
+import sys
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  
 
 from utils.search_mongo import search_documents
 from RAG.initialize import initialize

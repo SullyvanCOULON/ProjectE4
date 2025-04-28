@@ -3,7 +3,7 @@ interface/node_modules/
 interface/.idea/
 .vscode/
 *.pyc
-__pycache__/
+utils/__pycache__/*
 .env
 .venv
 .DS_Store
